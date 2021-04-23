@@ -45,7 +45,7 @@ new_version_commit=$(git rev-list -n 1 $new_version 2>/dev/null)
 [[ "$current_version_commit" = "$new_version_commit" ]] && echo "v$current_version already released!" && exit 1
 
 git tag -d $(git tag -l)
-git fetch
+git pull --tags
 git tag -a $new_version -m "$latest_commit_message"
 echo -e '\E[47;31m'"\033[1mReleasing version $new_version\033[0m"
 git push --tags
