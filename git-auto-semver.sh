@@ -1,5 +1,12 @@
 #!/bin/bash
 
+path=$1
+
+[ -z $path ] && path=`pwd`
+[ ! -d $path ] && echo "Invalid path!" && exit 1
+
+cd $path
+
 [ ! -d .git ] && echo "Not inside a git repository!" && exit 1
 
 current_version=$(git describe --abbrev=0 --tags 2>/dev/null)
