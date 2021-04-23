@@ -13,11 +13,11 @@ patch=${current_version_bits[2]}
 [ -z $minor ] && minor=0
 [ -z $patch ] && patch=0
 
-latest_merge_message=$(git log --pretty="%s" master -1)
+latest_commit_message=$(git log --pretty="%s" master -1 --no-merges)
 mode='minor'
 
-[[ $latest_merge_message =~ 'Fixed' ]] && mode='patch'
-[[ $latest_merge_message =~ 'Release' ]] && mode='major'
+[[ $latest_commit_message =~ 'Fixed' ]] && mode='patch'
+[[ $latest_commit_message =~ 'Release' ]] && mode='major'
 
 case "$mode" in
     "major") major=$((major+1)) && minor=0 && patch=0 ;;
@@ -26,6 +26,6 @@ case "$mode" in
 esac
 new_version='v'$major'.'$minor'.'$patch
 
-git tag -a $new_version -m "$latest_merge_message"
+git tag -a $new_version -m "$latest_commit_message"
 echo -e '\E[47;31m'"\033[1mReleasing version $new_version\033[0m"
 git push --tags
