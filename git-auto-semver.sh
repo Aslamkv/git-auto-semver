@@ -37,7 +37,7 @@ patch=${current_version_bits[2]}
 latest_commit_message=$(git log --pretty="%s" master -1 --no-merges)
 mode='minor'
 
-[[ $latest_commit_message =~ 'Fix' ]] && mode='patch'
+[[ $latest_commit_message =~ 'Fixed' ]] && mode='patch'
 [[ $latest_commit_message =~ 'Release' ]] && mode='major'
 
 case "$mode" in
