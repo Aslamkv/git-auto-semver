@@ -34,7 +34,7 @@ patch=${current_version_bits[2]}
 [ -z $minor ] && minor=0
 [ -z $patch ] && patch=0
 
-latest_commit_message=$(git log --pretty="%s" master -1 --no-merges)
+latest_commit_message=$(git log --pretty="%s" -1 --no-merges)
 mode='minor'
 
 [[ $latest_commit_message =~ 'Fixed' ]] && mode='patch'
