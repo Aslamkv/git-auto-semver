@@ -40,7 +40,6 @@ do
   if [[ -z $version_commit ]]; then
     echo "Commit:$commit_message version:$version"
     git tag -a $version -m "$commit_message"
+    git push origin $version
   fi
 done
-
-git push --tags
