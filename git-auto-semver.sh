@@ -15,6 +15,14 @@ patch=0
 
 git pull --tags
 
+git_tag_count=$(git tag | wc -l)
+git_commit_count=$(git log --pretty="%s" --no-merges --reverse | wc -l)
+
+if [[ $git_tag_count > $git_commit_count ]]; then
+  git push origin --delete $(git tag -l)
+  git tag -d $(git tag -l)
+fi
+
 IFS=$'\n'
 for commit_message in $(git log --pretty="%s" --no-merges --reverse);
 do
@@ -29,7 +37,10 @@ do
   esac
   version='v'$major'.'$minor'.'$patch
   version_commit=$(git rev-list -n 1 $version 2>/dev/null)
-  [[ ! -z $version_commit ]] && git tag -a $version -m "$commit_message"
+  if [[ -z $version_commit ]]; then
+    echo "Commit:$commit_message version:$version"
+    git tag -a $version -m "$commit_message"
+  fi
 done
 
 git push --tags
